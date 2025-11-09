@@ -1019,6 +1019,12 @@ class Less_Functions {
 
 		[ $filePath ] = Less_FileManager::getFilePath( $filePath, $this->currentFileInfo );
 
+		// If file path cannot be resolved, return fallback
+		if ( !$filePath ) {
+			$fallback = new Less_Tree_Url( ( $filePathNode ?: $mimetypeNode ), $this->currentFileInfo );
+			return $fallback->compile( $this->env );
+		}
+
 		// detect the mimetype if not given
 		if ( !$mimetype ) {
 
