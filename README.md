@@ -5,6 +5,8 @@ Less.php (skerbis/less.php)
 
 This fork is based on the original wikimedia/less.php v5.4.0 and adds support for modern CSS selectors like `:is()` and `:where()`, enabling compatibility with modern CSS frameworks such as UIKit v3.24+.
 
+**Requirements:** PHP 8.3 or higher (optimized for PHP 8.4+)
+
 ## About
 
 This is a PHP port of the [official LESS processor](https://lesscss.org). The code structure mirrors that of upstream Less.js to ensure compatibility and help reduce maintenance. The port aims to be compatible with Less.js 3.13.1. Please note that "inline JavaScript expressions" (via eval or backticks) are not supported.

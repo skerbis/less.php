@@ -2,6 +2,8 @@
 
 /**
  * Version numbers
+ *
+ * Requires PHP 8.3+ (optimized for PHP 8.4+)
  */
 class Less_Version {
 
@@ -16,4 +18,7 @@ class Less_Version {
 
 	/* Parser cache version */
 	public const cache_version = '3131-10';
+
+	/* Minimum required PHP version */
+	public const php_version = '8.3.0';
 }
