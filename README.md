@@ -1,13 +1,15 @@
-[![Packagist](https://img.shields.io/packagist/v/wikimedia/less.php.svg?style=flat)](https://packagist.org/packages/wikimedia/less.php)
-
-Less.php
+Less.php (skerbis/less.php)
 ========
 
-This is a PHP port of the [official LESS processor](https://lesscss.org).
+**This is a community-maintained fork of wikimedia/less.php with additional features and improvements.**
+
+This fork is based on the original wikimedia/less.php v5.4.0 and adds support for modern CSS selectors like `:is()` and `:where()`, enabling compatibility with modern CSS frameworks such as UIKit v3.24+.
+
+**Requirements:** PHP 8.3 or higher (optimized for PHP 8.4+)
 
 ## About
 
-The code structure of Less.php mirrors that of upstream Less.js to ensure compatibility and help reduce maintenance. The port aims to be compatible with Less.js 3.13.1. Please note that "inline JavaScript expressions" (via eval or backticks) are not supported.
+This is a PHP port of the [official LESS processor](https://lesscss.org). The code structure mirrors that of upstream Less.js to ensure compatibility and help reduce maintenance. The port aims to be compatible with Less.js 3.13.1. Please note that "inline JavaScript expressions" (via eval or backticks) are not supported.
 
 * [API § Caching](./API.md#caching), Less.php includes a file-based cache.
 * [API § Source maps](./API.md#source-maps), Less.php supports v3 sourcemaps.
@@ -19,12 +21,12 @@ You can install the library with Composer or standalone.
 
 If you have [Composer](https://getcomposer.org/download/) installed:
 
-1. Run `composer require wikimedia/less.php`
+1. Run `composer require skerbis/less.php`
 2. Use `Less_Parser` in your code.
 
 Or standalone:
 
-1. [Download Less.php](https://gerrit.wikimedia.org/g/mediawiki/libs/less.php/+archive/HEAD.tar.gz) and upload the PHP files to your server.
+1. [Download this fork](https://github.com/skerbis/less.php/archive/refs/heads/main.zip) and upload the PHP files to your server.
 2. Include the library:
    ```php
    require_once '[path to]/less.php/lib/Less/Autoloader.php';
@@ -60,13 +62,13 @@ If you're looking to transition from the [Leafo/lessphp](https://github.com/leaf
 
 This allows Less.php to be a drop-in replacement for Leafo/lessphp.
 
-[Download Less.php](https://gerrit.wikimedia.org/g/mediawiki/libs/less.php/+archive/HEAD.tar.gz), unzip the files into your project, and include its `lessc.inc.php` instead.
+[Download this fork](https://github.com/skerbis/less.php/archive/refs/heads/main.zip), unzip the files into your project, and include its `lessc.inc.php` instead.
 
 Note: The `setPreserveComments` option is ignored. Less.php already preserves CSS block comments by default, and removes LESS inline comments.
 
 #### Drupal
 
-Less.php can be used with [Drupal's less module](https://drupal.org/project/less) via the `lessc.inc.php` adapter. [Download Less.php](https://gerrit.wikimedia.org/g/mediawiki/libs/less.php/+archive/HEAD.tar.gz) and unzip it so that `lessc.inc.php` is located at `sites/all/libraries/lessphp/lessc.inc.php`, then install the Drupal less module as usual.
+Less.php can be used with [Drupal's less module](https://drupal.org/project/less) via the `lessc.inc.php` adapter. [Download this fork](https://github.com/skerbis/less.php/archive/refs/heads/main.zip) and unzip it so that `lessc.inc.php` is located at `sites/all/libraries/lessphp/lessc.inc.php`, then install the Drupal less module as usual.
 
 #### WordPress
 
@@ -76,9 +78,17 @@ Less.php can be used with [Drupal's less module](https://drupal.org/project/less
 
 ## Credits
 
-Less.php was originally ported to PHP in 2011 by [Matt Agar](https://github.com/agar) and then updated by [Martin Jantošovič](https://github.com/Mordred) in 2012. From 2013 to 2017, [Josh Schmidt](https://github.com/oyejorge) lead development of the library. Since 2019, the library is maintained by Wikimedia Foundation.
+Less.php was originally ported to PHP in 2011 by [Matt Agar](https://github.com/agar) and then updated by [Martin Jantošovič](https://github.com/Mordred) in 2012. From 2013 to 2017, [Josh Schmidt](https://github.com/oyejorge) lead development of the library. From 2019 to 2024, the library was maintained by Wikimedia Foundation.
+
+This fork is maintained by the community to provide additional features and improvements.
+
+## Upstream Project
+
+This is a fork of the original [wikimedia/less.php](https://gerrit.wikimedia.org/g/mediawiki/libs/less.php) project. For the official Wikimedia version, please visit their repository.
 
 ## Contribute
 
-* Issue tracker: https://phabricator.wikimedia.org/tag/less.php/
-* Source code: https://gerrit.wikimedia.org/g/mediawiki/libs/less.php ([Get started with Gerrit](https://www.mediawiki.org/wiki/Gerrit/Tutorial/tl;dr))
+For issues and contributions related to this fork, please use:
+
+* Issue tracker: https://github.com/skerbis/less.php/issues
+* Source code: https://github.com/skerbis/less.php

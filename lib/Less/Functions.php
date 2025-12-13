@@ -6,17 +6,13 @@
  */
 class Less_Functions {
 
-	/** @var Less_Environment */
-	public $env;
-	/** @var array|null */
-	public $currentFileInfo;
-
-	public function __construct( $env, ?array $currentFileInfo = null ) {
-		$this->env = $env;
-		$this->currentFileInfo = $currentFileInfo;
+	public function __construct(
+		public Less_Environment $env,
+		public ?array $currentFileInfo = null
+	) {
 	}
 
-	private static function _clamp( $val, $max = 1 ) {
+	private static function _clamp( float|int $val, float|int $max = 1 ): float|int {
 		return min( max( $val, 0 ), $max );
 	}
 
@@ -32,7 +28,7 @@ class Less_Functions {
 		}
 	}
 
-	private static function _number( $n ) {
+	private static function _number( mixed $n ): float|int {
 		if ( $n instanceof Less_Tree_Dimension ) {
 			return floatval( $n->unit->is( '%' ) ? $n->value / 100 : $n->value );
 		} elseif ( is_numeric( $n ) ) {
@@ -42,7 +38,7 @@ class Less_Functions {
 		}
 	}
 
-	private static function _scaled( $n, $size = 255 ) {
+	private static function _scaled( mixed $n, float|int $size = 255 ): float|int {
 		if ( $n instanceof Less_Tree_Dimension && $n->unit->is( '%' ) ) {
 			return (float)$n->value * $size / 100;
 		} else {
@@ -1018,6 +1014,12 @@ class Less_Functions {
 		}
 
 		[ $filePath ] = Less_FileManager::getFilePath( $filePath, $this->currentFileInfo );
+
+		// If file path cannot be resolved, return fallback
+		if ( !$filePath ) {
+			$fallback = new Less_Tree_Url( ( $filePathNode ?: $mimetypeNode ), $this->currentFileInfo );
+			return $fallback->compile( $this->env );
+		}
 
 		// detect the mimetype if not given
 		if ( !$mimetype ) {

@@ -2155,6 +2155,52 @@ class Less_Parser {
 	}
 
 	/**
+	 * Parse modern CSS pseudo-class functions that may contain nested parentheses.
+	 * Handles :is(), :where(), :not(), :has(), etc. with proper nesting support.
+	 * Only matches when there are nested parentheses, otherwise falls back to default handling.
+	 *
+	 * @return string|null The complete matched string including the function name and parentheses
+	 */
+	private function parseModernPseudoClass() {
+		// Match modern pseudo-class functions like :is(), :where(), :not(), :has()
+		// But only when they contain nested parentheses (which the simple regex can't handle)
+		if ( preg_match( '/\\G(:(?:is|where|not|has|matches|any)\()/i', $this->input, $match, 0, $this->pos ) ) {
+			$start = $this->pos;
+			$funcStart = $this->pos;
+			$this->pos += strlen( $match[0] );
+			$parenLevel = 1;
+			$content = $match[0];
+			$hasNestedParens = false;
+
+			// Count parentheses to handle nesting
+			while ( $this->pos < $this->input_len && $parenLevel > 0 ) {
+				$char = $this->input[$this->pos];
+				$content .= $char;
+				$this->pos++;
+
+				if ( $char === '(' ) {
+					$parenLevel++;
+					$hasNestedParens = true; // Found nested parentheses
+				} elseif ( $char === ')' ) {
+					$parenLevel--;
+				}
+			}
+
+			// Only use this parser if there are nested parentheses
+			// Otherwise, restore and let the standard parsing handle it
+			if ( $parenLevel === 0 && $hasNestedParens ) {
+				$this->skipWhitespace( 0 );
+				return $content;
+			}
+
+			// Restore position to let standard parsing handle simple cases
+			$this->pos = $start;
+		}
+
+		return null;
+	}
+
+	/**
 	 * A Selector Element
 	 *
 	 *	 div
@@ -2174,6 +2220,7 @@ class Less_Parser {
 		$index = $this->pos;
 
 		$e = $this->matchReg( '/\\G(?:\d+\.\d+|\d+)%/' )
+			?? $this->parseModernPseudoClass()
 			?? $this->matchReg( '/\\G(?:[.#]?|:*)(?:[\w-]|[^\x00-\x9f]|\\\\(?:[A-Fa-f0-9]{1,6} ?|[^A-Fa-f0-9]))+/' )
 			?? $this->matchChar( '*' )
 			?? $this->matchChar( '&' )
